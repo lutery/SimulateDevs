@@ -5,6 +5,7 @@ Project {
 
     CppApplication {
         Depends { name: "Qt.core" }
+        Depends { name: "Qt.network" }
 
         cpp.cxxLanguageVersion: "c++17"
 
@@ -23,6 +24,8 @@ Project {
 
         consoleApplication: true
         files: [
+            "devclient.cpp",
+            "devclient.h",
             "devinit.cpp",
             "devinit.h",
             "main.cpp",
