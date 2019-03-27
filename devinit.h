@@ -12,6 +12,10 @@ public:
 signals:
 
 public slots:
+    void initParam();
+
+private:
+    int mDevCount = 1;
 };
 
 #endif // DEVINIT_H

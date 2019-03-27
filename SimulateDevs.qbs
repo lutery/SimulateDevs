@@ -6,7 +6,7 @@ Project {
     CppApplication {
         Depends { name: "Qt.core" }
 
-        cpp.cxxLanguageVersion: "c++11"
+        cpp.cxxLanguageVersion: "c++17"
 
         cpp.defines: [
             // The following define makes your compiler emit warnings if you use
@@ -22,7 +22,11 @@ Project {
         ]
 
         consoleApplication: true
-        files: "main.cpp"
+        files: [
+            "devinit.cpp",
+            "devinit.h",
+            "main.cpp",
+        ]
 
         Group {     // Properties for the produced executable
             fileTagsFilter: "application"
