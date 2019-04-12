@@ -6,6 +6,8 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "printerorder.h"
+#include <QByteArray>
 
 DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
 {
@@ -15,6 +17,7 @@ DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
     connect(mpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(netError));
     connect(mpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(mpClient, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    connect(mpClient, SIGNAL(bytesWritten), this, SLOT(hasWritten()));
 }
 
 void DevClient::initDevice(QString serverIP, quint16 serverPort)
@@ -34,6 +37,8 @@ void DevClient::readData()
     mBuffLock.lock();
     mClientBuff.append(readBuff);
     mBuffLock.unlock();
+
+
 }
 
 void DevClient::netError(QAbstractSocket::SocketError& socketError)
@@ -43,10 +48,28 @@ void DevClient::netError(QAbstractSocket::SocketError& socketError)
 
 void DevClient::connected()
 {
+    qDebug() << "与服务器连接成功";
 
+    QByteArray initArray;
+    initArray.append(PrinterOrder::DEVINIT());
+    initArray.append(QByteArrayLiteral("\x00\x00\x00\x00"));
+    initArray.append(QByteArrayLiteral("\x03\x00\x00"));
+    initArray.append(QByteArrayLiteral("\x24"));
+
+    mpClient->write(initArray);
 }
 
 void DevClient::disconnected()
 {
+    qDebug() << "与服务器断开连接";
+}
 
+void DevClient::hasWritten(qint64 bytes)
+{
+    qDebug() << "has writer bytes count is " << bytes;
+}
+
+QString DevClient::devID() const
+{
+    return mDevID;
 }

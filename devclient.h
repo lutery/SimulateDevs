@@ -14,6 +14,8 @@ public:
     explicit DevClient(QObject *parent = nullptr);
     void initDevice(QString serverIP, quint16 serverPort);
 
+    QString devID() const;
+
 signals:
 
 public slots:
@@ -21,6 +23,7 @@ public slots:
     void netError(QAbstractSocket::SocketError& socketError);
     void connected();
     void disconnected();
+    void hasWritten(qint64 bytes);
 
 private:
     QTcpSocket* mpClient;

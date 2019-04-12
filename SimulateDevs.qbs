@@ -26,9 +26,15 @@ Project {
         files: [
             "devclient.cpp",
             "devclient.h",
+            "devicemanager.cpp",
+            "devicemanager.h",
+            "deviceorder.cpp",
+            "deviceorder.h",
             "devinit.cpp",
             "devinit.h",
             "main.cpp",
+            "printerorder.cpp",
+            "printerorder.h",
             "toolutil.cpp",
             "toolutil.h",
         ]
@@ -36,6 +42,18 @@ Project {
         Group {     // Properties for the produced executable
             fileTagsFilter: "application"
             qbs.install: true
+        }
+
+        Group{
+            name: "handler"
+            files:[
+                "abshandler.cpp",
+                "abshandler.h",
+                "devinfohandler.cpp",
+                "devinfohandler.h",
+                "unknownorderhandler.cpp",
+                "unknownorderhandler.h",
+            ]
         }
     }
 }
