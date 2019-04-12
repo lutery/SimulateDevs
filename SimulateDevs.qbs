@@ -29,6 +29,8 @@ Project {
             "devinit.cpp",
             "devinit.h",
             "main.cpp",
+            "toolutil.cpp",
+            "toolutil.h",
         ]
 
         Group {     // Properties for the produced executable
