@@ -1,6 +1,9 @@
 #include "devinfohandler.h"
+#include "toolutil.h"
+#include "printerorder.h"
 #include <QJsonObject>
 #include <QJsonDocument>
+#include "iverify.h"
 
 DevInfoHandler::DevInfoHandler(QObject *parent):AbsHandler (parent)
 {
@@ -19,6 +22,8 @@ bool DevInfoHandler::handle(DevClient &devClient, DeviceOrder &deviceOrder)
         return false;
     }
 
+    qDebug() << "返回设备信息给服务器";
+
     QString devId = devClient.devID();
 
     QJsonObject devInfoJson;
@@ -26,7 +31,16 @@ bool DevInfoHandler::handle(DevClient &devClient, DeviceOrder &deviceOrder)
 
     QJsonDocument document;
     document.setObject(devInfoJson);
-    QByteArray devBytes = document.toJson();
+    QByteArray devBytes = ToolUtil::strCodecTo(document.toJson(), "gb18030");
 
 
+    QByteArray byteBuf;
+    byteBuf.append(PrinterOrder::DEVINFO());
+    byteBuf.append(ToolUtil::intToBytes(devBytes.length()));
+    byteBuf.append(0x03);
+    byteBuf.append(mpVerify->generateVerifyCode(devBytes));
+    byteBuf.append(devBytes);
+    byteBuf.append(0x24);
+
+    devClient.writeAndFlush(byteBuf);
 }

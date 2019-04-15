@@ -1,8 +1,10 @@
 #include "abshandler.h"
+#include "crc16xmodemverify.h"
+#include <QDebug>
 
 AbsHandler::AbsHandler(QObject *parent) : QObject(parent)
 {
-
+    mpVerify = new CRC16XModemVerify();
 }
 
 AbsHandler::~AbsHandler()
@@ -12,6 +14,8 @@ AbsHandler::~AbsHandler()
 
 void AbsHandler::ReadDataHandler(DevClient &devClient, DeviceOrder &deviceOrder)
 {
+    qDebug() << "handler data";
+
     if (this->handle(devClient, deviceOrder))
     {
         return;
@@ -23,4 +27,9 @@ void AbsHandler::ReadDataHandler(DevClient &devClient, DeviceOrder &deviceOrder)
             this->mpNext->ReadDataHandler(devClient, deviceOrder);
         }
     }
+}
+
+void AbsHandler::setNext(AbsHandler *pNext)
+{
+    mpNext = pNext;
 }

@@ -9,6 +9,7 @@ public:
     DevInfoHandler(QObject* parent = nullptr);
     virtual ~DevInfoHandler();
 
+private:
      virtual bool handle(DevClient& devClient, DeviceOrder& deviceOrder);
 };
 

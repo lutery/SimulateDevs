@@ -9,6 +9,7 @@ public:
     UnknownOrderHandler(QObject* parent = nullptr);
     virtual ~UnknownOrderHandler();
 
+private:
     virtual bool handle(DevClient& devClient, DeviceOrder& deviceOrder);
 };
 

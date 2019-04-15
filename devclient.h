@@ -6,6 +6,7 @@
 #include <QMutex>
 
 class QTcpSocket;
+class AbsHandler;
 
 class DevClient : public QObject
 {
@@ -24,8 +25,10 @@ public slots:
     void connected();
     void disconnected();
     void hasWritten(qint64 bytes);
+    void writeAndFlush(QByteArray& data);
 
 private:
+    AbsHandler* mpHandler;
     QTcpSocket* mpClient;
     QByteArray mClientBuff;
     QMutex mBuffLock;

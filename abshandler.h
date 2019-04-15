@@ -5,6 +5,8 @@
 #include "devclient.h"
 #include "deviceorder.h"
 
+class IVerify;
+
 class AbsHandler : public QObject
 {
     Q_OBJECT
@@ -13,6 +15,9 @@ public:
     virtual ~AbsHandler();
 
     virtual void ReadDataHandler(DevClient& devClient, DeviceOrder& deviceOrder) final;
+    virtual void setNext(AbsHandler* pNext);
+
+protected:
     virtual bool handle(DevClient& devClient, DeviceOrder& deviceOrder) = 0;
 
 signals:
@@ -20,6 +25,7 @@ signals:
 public slots:
 
 protected:
+    IVerify* mpVerify;
     AbsHandler* mpNext;
 };
 

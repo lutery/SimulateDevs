@@ -55,5 +55,18 @@ Project {
                 "unknownorderhandler.h",
             ]
         }
+
+        Group{
+            name: "verify"
+            files: [
+                "crc16xmodemverify.cpp",
+                "crc16xmodemverify.h",
+                "iverify.cpp",
+                "iverify.h",
+                "md5verify.cpp",
+                "md5verify.h",
+            ]
+        }
+
     }
 }
