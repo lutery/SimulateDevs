@@ -59,6 +59,8 @@ Project {
         Group{
             name: "verify"
             files: [
+                "crc16ccitt.cpp",
+                "crc16ccitt.h",
                 "crc16xmodemverify.cpp",
                 "crc16xmodemverify.h",
                 "iverify.cpp",

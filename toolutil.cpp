@@ -38,7 +38,7 @@ QByteArray ToolUtil::intToBytes(int length)
 
 int ToolUtil::bytesToInt(QByteArray data)
 {
-    return data.toHex().toInt();
+    return data.toHex().toInt(nullptr, 16);
 }
 
 QString ToolUtil::bytes2HexStr(QByteArray data)
@@ -74,4 +74,44 @@ int ToolUtil::verifyTypeLength(VerifyType verifyType)
     default:
         return 0;
     }
+}
+
+quint16 ToolUtil::generalCRC16(quint16 wCRCin, quint16 wCPoly, quint16 wResultXOR, bool input_invert, bool ouput_invert, const char *puchMsg, int usDataLen)
+{
+    quint8 wChar = 0;
+    while (usDataLen--)
+    {
+        wChar = *(puchMsg++);
+        if(input_invert)//输入值反转
+        {
+            quint8 temp_char = wChar;
+            wChar=0;
+            for(int i=0;i<8;++i)
+            {
+                if(temp_char&0x01)
+                    wChar|=0x01<<(7-i);
+                temp_char>>=1;
+            }
+        }
+        wCRCin ^= (wChar << 8);
+        for (int i = 0; i < 8; i++)
+        {
+            if (wCRCin & 0x8000)
+                wCRCin = (wCRCin << 1) ^ wCPoly;
+            else
+                wCRCin = wCRCin << 1;
+        }
+    }
+    if(ouput_invert)
+    {
+        quint16 temp_short = wCRCin;
+        wCRCin=0;
+        for(int i=0;i<16;++i)
+        {
+            if(temp_short&0x01)
+                wCRCin|=0x01<<(15-i);
+            temp_short>>=1;
+        }
+    }
+    return (wCRCin^wResultXOR);
 }

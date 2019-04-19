@@ -9,7 +9,8 @@ enum class VerifyType
     MD5 = 0x01,
     CRC8 = 0x02,
     CRC16 = 0x03,
-    CRC32 = 0x04
+    CRC32 = 0x04,
+    CRC16CCITT = 0x05
 };
 
 class IVerify : public QObject

@@ -18,6 +18,7 @@ public:
     static int bytesToInt(QByteArray data);
     static QString bytes2HexStr(QByteArray data);
     static int verifyTypeLength(VerifyType verifyType);
+    static quint16 generalCRC16(quint16 wCRCin,quint16 wCPoly,quint16 wResultXOR,bool input_invert,bool ouput_invert,const char *puchMsg, int usDataLen);
 };
 
 #endif // TOOLUTIL_H
