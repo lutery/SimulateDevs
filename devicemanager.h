@@ -16,6 +16,7 @@ public:
     ~DeviceManager();
 
 signals:
+    void finish();
 
 public slots:
 

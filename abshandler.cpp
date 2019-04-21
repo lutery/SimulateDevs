@@ -1,10 +1,11 @@
 #include "abshandler.h"
 #include "crc16xmodemverify.h"
+#include "crc16ccitt.h"
 #include <QDebug>
 
 AbsHandler::AbsHandler(QObject *parent) : QObject(parent)
 {
-    mpVerify = new CRC16XModemVerify();
+    mpVerify = new CRC16CCITT();
 }
 
 AbsHandler::~AbsHandler()

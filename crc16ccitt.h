@@ -15,6 +15,9 @@ public:
     bool verifyContent(QByteArray verifyCode, QByteArray verifyContent);
     QByteArray generateVerifyCode(QByteArray content);
     VerifyType verifyType();
+
+private:
+    QByteArray crc16ccitt(QByteArray content);
 };
 
 #endif // CRC16CCITT_H

@@ -2,6 +2,7 @@
 #include <iostream>
 #include "devinit.h"
 #include "devicemanager.h"
+#include <QEventLoop>
 
 int main(int argc, char *argv[])
 {
@@ -12,7 +13,11 @@ int main(int argc, char *argv[])
 
     std::cout << devInit;
 
+    QEventLoop loop;
     DeviceManager devManager(devInit);
+    QObject::connect(&devManager, SIGNAL(finish()), &loop, SLOT(quit()));
+//    loop.exec();
 
-    return a.exec();
+//    return a.exec();
+    return loop.exec();
 }

@@ -15,8 +15,8 @@ DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
 {
     mpClient = new QTcpSocket(this);
 
-    connect(mpClient, SIGNAL(readyRead), this, SLOT(readData));
-    connect(mpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(netError));
+    connect(mpClient, SIGNAL(readyRead()), this, SLOT(readData()));
+    connect(mpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(netError()));
     connect(mpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(mpClient, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(mpClient, SIGNAL(bytesWritten), this, SLOT(hasWritten()));
@@ -37,6 +37,8 @@ void DevClient::initDevice(QString serverIP, quint16 serverPort)
 
 void DevClient::readData()
 {
+    qDebug() << "receive dara";
+
     if (mpClient->bytesAvailable() <= 0)
     {
         return;

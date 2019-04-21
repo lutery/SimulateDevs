@@ -26,7 +26,8 @@ public slots:
 private:
     int mDevCount = 1;
     int mServerPort = 9100;
-    QString mServerIP = "startprinter.com.cn";
+//    QString mServerIP = "startprinter.com.cn";
+    QString mServerIP = "localhost";
 };
 
 #endif // DEVINIT_H

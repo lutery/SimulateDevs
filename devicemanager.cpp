@@ -21,6 +21,8 @@ DeviceManager::DeviceManager(DevInit &devInit, QObject *parent):QObject (parent)
 
 DeviceManager::~DeviceManager()
 {
+    qDebug() << "释放所有客户端";
+
     for (auto& pDevClient : mDevs)
     {
         delete pDevClient;

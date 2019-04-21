@@ -66,10 +66,12 @@ int ToolUtil::verifyTypeLength(VerifyType verifyType)
         return 1;
 
     case VerifyType::CRC16:
+    case VerifyType::CRC16CCITT:
         return 2;
 
     case VerifyType::CRC32:
         return 4;
+
 
     default:
         return 0;

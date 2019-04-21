@@ -23,6 +23,7 @@ bool DevInfoHandler::handle(DevClient &devClient, DeviceOrder &deviceOrder)
     }
 
     qDebug() << "返回设备信息给服务器";
+    qDebug() << "dev id is " << devClient.devID();
 
     QString devId = devClient.devID();
 
@@ -37,7 +38,7 @@ bool DevInfoHandler::handle(DevClient &devClient, DeviceOrder &deviceOrder)
     QByteArray byteBuf;
     byteBuf.append(PrinterOrder::DEVINFO());
     byteBuf.append(ToolUtil::intToBytes(devBytes.length()));
-    byteBuf.append(0x03);
+    byteBuf.append((unsigned char)mpVerify->verifyType());
     byteBuf.append(mpVerify->generateVerifyCode(devBytes));
     byteBuf.append(devBytes);
     byteBuf.append(0x24);
