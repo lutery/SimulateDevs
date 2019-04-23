@@ -3,6 +3,8 @@
 #include "devinit.h"
 #include "devicemanager.h"
 #include <QEventLoop>
+#include <QDebug>
+#include "devdaemon.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,11 +15,16 @@ int main(int argc, char *argv[])
 
     std::cout << devInit;
 
-    QEventLoop loop;
-    DeviceManager devManager(devInit);
-    QObject::connect(&devManager, SIGNAL(finish()), &loop, SLOT(quit()));
-//    loop.exec();
+    DevDaemon devDaemon(&devInit);
+    devDaemon.start();
 
-//    return a.exec();
-    return loop.exec();
+    for (;;)
+    {
+
+    }
+
+    qDebug() << "core application exit";
+
+    return a.exec();
+//    return loop.exec();
 }

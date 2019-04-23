@@ -16,10 +16,10 @@ DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
     mpClient = new QTcpSocket(this);
 
     connect(mpClient, SIGNAL(readyRead()), this, SLOT(readData()));
-    connect(mpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(netError()));
+    connect(mpClient, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(netError(QAbstractSocket::SocketError)));
     connect(mpClient, SIGNAL(connected()), this, SLOT(connected()));
     connect(mpClient, SIGNAL(disconnected()), this, SLOT(disconnected()));
-    connect(mpClient, SIGNAL(bytesWritten), this, SLOT(hasWritten()));
+    connect(mpClient, SIGNAL(bytesWritten(qint64)), this, SLOT(hasWritten(qint64)));
 
 
     DevInfoHandler* infoHandler = new DevInfoHandler();
@@ -101,7 +101,7 @@ void DevClient::readData()
     mpHandler->ReadDataHandler(*this, deviceOrder);
 }
 
-void DevClient::netError(QAbstractSocket::SocketError& socketError)
+void DevClient::netError(QAbstractSocket::SocketError socketError)
 {
 
 }

@@ -21,7 +21,7 @@ signals:
 
 public slots:
     void readData();
-    void netError(QAbstractSocket::SocketError& socketError);
+    void netError(QAbstractSocket::SocketError socketError);
     void connected();
     void disconnected();
     void hasWritten(qint64 bytes);
