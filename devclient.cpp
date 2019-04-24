@@ -45,6 +45,9 @@ void DevClient::readData()
     }
 
     QByteArray readBuff = mpClient->readAll();
+
+    qDebug() << "readBuff is " << ToolUtil::bytes2HexStr(readBuff);
+
     mBuffLock.lock();
     mClientBuff.append(readBuff);
     mBuffLock.unlock();
@@ -69,12 +72,16 @@ void DevClient::readData()
     }
 
     QByteArray lengthOfJson;
-    lengthOfJson[0] = mClientBuff[3];
-    lengthOfJson[1] = mClientBuff[4];
-    lengthOfJson[2] = mClientBuff[5];
-    lengthOfJson[3] = mClientBuff[6];
+    lengthOfJson[0] = mClientBuff[4];
+    lengthOfJson[1] = mClientBuff[5];
+    lengthOfJson[2] = mClientBuff[6];
+    lengthOfJson[3] = mClientBuff[7];
 
     int jsonLength = ToolUtil::bytesToInt(lengthOfJson);
+
+    qDebug() << "jsonLength is " << jsonLength;
+//    qDebug() << "lengthOfJson is " << ToolUtil::bytes2HexStr(lengthOfJson);
+//    qDebug() << "mClientBuff[3] " << ToolUtil::bytes2HexStr(mClientBuff.left(8).right(4));
 
     if (mClientBuff.length() <= (jsonLength + lengthOfVerifyType + headerLength))
     {
@@ -85,6 +92,7 @@ void DevClient::readData()
     if (endByte != mClientBuff[endIndex])
     {
         qDebug() << "严重错误，尾部标识错误";
+        qDebug() << "endIndex is " << endIndex << " and " << ToolUtil::bytes2HexStr(mClientBuff);
         return;
     }
 

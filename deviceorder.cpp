@@ -7,7 +7,9 @@ DeviceOrder::DeviceOrder()
 
 QByteArray DeviceOrder::combine()
 {
-    return QByteArrayLiteral("\x00");
+    return QByteArray().append(orderType()).append(getMlengthBytes())
+            .append(getVerifyType()).append(getVerifyCode())
+            .append(getContent()).append(getEnd());
 }
 
 QByteArray DeviceOrder::orderType() const

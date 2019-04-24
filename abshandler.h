@@ -26,7 +26,7 @@ public slots:
 
 protected:
     IVerify* mpVerify;
-    AbsHandler* mpNext;
+    AbsHandler* mpNext = nullptr;
 };
 
 #endif // ABSHANDLER_H
