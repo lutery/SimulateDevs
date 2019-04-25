@@ -25,3 +25,17 @@ QByteArray PrinterOrder::HEARTBEAT()
 
     return heartBeat;
 }
+
+QByteArray PrinterOrder::DEVSTATUS()
+{
+    static QByteArray devStatus = QByteArrayLiteral("\xf1\x00\x00\x00");
+
+    return devStatus;
+}
+
+QByteArray PrinterOrder::GETDEVSTATUS()
+{
+    static QByteArray devStatus = QByteArrayLiteral("\x12\x00\x00\x00");
+
+    return devStatus;
+}

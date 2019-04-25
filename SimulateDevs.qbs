@@ -32,6 +32,8 @@ Project {
             "devicemanager.h",
             "deviceorder.cpp",
             "deviceorder.h",
+            "devicestatus.cpp",
+            "devicestatus.h",
             "devinit.cpp",
             "devinit.h",
             "main.cpp",
@@ -53,6 +55,8 @@ Project {
                 "abshandler.h",
                 "devinfohandler.cpp",
                 "devinfohandler.h",
+                "devstatushandler.cpp",
+                "devstatushandler.h",
                 "unknownorderhandler.cpp",
                 "unknownorderhandler.h",
             ]

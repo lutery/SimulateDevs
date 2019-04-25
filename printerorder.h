@@ -14,6 +14,8 @@ public:
 //    static QByteArray PRNDATA();
 //    static QByteArray PRNOK();
     static QByteArray HEARTBEAT();
+    static QByteArray DEVSTATUS();
+    static QByteArray GETDEVSTATUS();
 };
 
 #endif // PRINTERORDER_H
