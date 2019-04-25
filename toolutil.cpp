@@ -1,10 +1,47 @@
+#include "printerorder.h"
 #include "toolutil.h"
 #include <QCryptographicHash>
 #include <QTextCodec>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <chrono>
+#include <random>
 
 ToolUtil::ToolUtil()
 {
 
+}
+
+int ToolUtil::genRangeInt(int min, int max)
+{
+    unsigned seed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+    std::mt19937 rand_generator(seed);
+    std::uniform_int_distribution<int> dist(min, max);
+    int range = dist(rand_generator);
+
+    return range;
+}
+
+QByteArray ToolUtil::getResultMsg(QString result, IVerify* verifyTool)
+{
+    QByteArray resultArray;
+
+    QJsonObject resultObj;
+    resultObj.insert("result", result);
+
+    QJsonDocument document;
+    document.setObject(resultObj);
+
+    QByteArray resultBytes = ToolUtil::strCodecTo(document.toJson(), "gb18030");
+
+    resultArray.append(PrinterOrder::RESULTINFO());
+    resultArray.append(ToolUtil::intToBytes(resultBytes.length()));
+    resultArray.append((unsigned char)verifyTool->verifyType());
+    resultArray.append(verifyTool->generateVerifyCode(resultBytes));
+    resultArray.append(resultBytes);
+    resultArray.append(0x24);
+
+    return resultArray;
 }
 
 QString ToolUtil::str2Md5(QString &&str)
@@ -23,6 +60,14 @@ QByteArray ToolUtil::strCodecTo(QString src, QString toCodec)
     QTextCodec* toStrCodec = QTextCodec::codecForName(toCodec.toLocal8Bit());
 
     return toStrCodec->fromUnicode(srcStrCodec->toUnicode(src.toUtf8()));
+}
+
+QByteArray ToolUtil::strCodecTo(QByteArray strBytes, QString fromCodec, QString toCodec)
+{
+    QTextCodec* srcStrCodec = QTextCodec::codecForName(fromCodec.toLocal8Bit());
+    QTextCodec* toStrCodec = QTextCodec::codecForName(toCodec.toLocal8Bit());
+
+    return toStrCodec->fromUnicode(srcStrCodec->toUnicode(strBytes));
 }
 
 QByteArray ToolUtil::intToBytes(int length)

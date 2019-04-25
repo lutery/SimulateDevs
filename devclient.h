@@ -26,6 +26,7 @@ public slots:
     void disconnected();
     void hasWritten(qint64 bytes);
     void writeAndFlush(QByteArray& data);
+    void writeAndFlush(QByteArray&& data);
 
 private:
     AbsHandler* mpHandler;

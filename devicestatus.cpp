@@ -1,6 +1,11 @@
 #include "devicestatus.h"
 #include <tuple>
 
+DeviceStatus::DeviceStatus(QObject *parnet) : QObject (parnet)
+{
+
+}
+
 QMap<QByteArray, QString> DeviceStatus::shortOfPaper()
 {
     static QMap<QByteArray, QString> status({std::pair(QByteArrayLiteral("\x30"), "缺纸")});

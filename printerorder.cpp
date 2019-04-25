@@ -39,3 +39,24 @@ QByteArray PrinterOrder::GETDEVSTATUS()
 
     return devStatus;
 }
+
+QByteArray PrinterOrder::RESULTINFO()
+{
+    static QByteArray resultInfo = QByteArrayLiteral("\x0f\x00\x00\x00");
+
+    return resultInfo;
+}
+
+QByteArray PrinterOrder::PRNDATA()
+{
+    static QByteArray resultInfo = QByteArrayLiteral("\xf0\x00\x00\x00");
+
+    return resultInfo;
+}
+
+QByteArray PrinterOrder::PRNINFO()
+{
+    static QByteArray prnInfo = QByteArrayLiteral("\x01\x00\x00\x00");
+
+    return prnInfo;
+}

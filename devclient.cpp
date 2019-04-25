@@ -9,6 +9,11 @@
 #include "printerorder.h"
 #include <QByteArray>
 #include "devinfohandler.h"
+#include "devstatushandler.h"
+#include "heartbeathandler.h"
+#include "prndatasavehandler.h"
+#include "prninfohandler.h"
+#include "resultinfohandler.h"
 #include "unknownorderhandler.h"
 
 DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
@@ -23,10 +28,20 @@ DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
 
 
     DevInfoHandler* infoHandler = new DevInfoHandler();
+    DevStatusHandler* devStatusHandler = new DevStatusHandler();
+    ResultInfoHandler* resultInfoHandler = new ResultInfoHandler();
+    HeartBeatHandler* heartBeatHandler = new HeartBeatHandler();
+    PrnDataSaveHandler* prnDataSavaHandler = new PrnDataSaveHandler();
+    PrnInfoHandler* prnInfoHandler = new PrnInfoHandler();
     UnknownOrderHandler* unknownHandler = new UnknownOrderHandler();
 
     mpHandler = infoHandler;
-    infoHandler->setNext(unknownHandler);
+    infoHandler->setNext(devStatusHandler);
+    devStatusHandler->setNext(resultInfoHandler);
+    resultInfoHandler->setNext(heartBeatHandler);
+    heartBeatHandler->setNext(prnDataSavaHandler);
+    prnDataSavaHandler->setNext(prnInfoHandler);
+    prnInfoHandler->setNext(unknownHandler);
 }
 
 void DevClient::initDevice(QString serverIP, quint16 serverPort)
@@ -96,12 +111,21 @@ void DevClient::readData()
         return;
     }
 
+//    qDebug() << "mClientBuff is " << ToolUtil::bytes2HexStr(mClientBuff);
+//    qDebug() << "mClientBuff.mid((lengthOfOrder + lengthOfContent + lenthOfCheck), lengthOfVerifyType) is " << ToolUtil::bytes2HexStr(mClientBuff.mid((lengthOfOrder + lengthOfContent + lenthOfCheck), lengthOfVerifyType));
+//    qDebug() << "lengthOfOrder is " << lengthOfOrder;
+//    qDebug() << "lengthOfContent is " << lengthOfContent;
+//    qDebug() << "lenthOfCheck is " << lenthOfCheck;
+//    qDebug() << "lengthOfVerifyType is " << lengthOfVerifyType;
+//    qDebug() << "jsonLength is " << jsonLength;
+//    qDebug() << "endIndex is " << endIndex;
+
     DeviceOrder deviceOrder;
     deviceOrder.setOrderType(mClientBuff.mid(0, lengthOfOrder));
     deviceOrder.setMlengthBytes(mClientBuff.mid(lengthOfOrder, lengthOfContent));
     deviceOrder.setVerifyType(mClientBuff.mid((lengthOfOrder + lengthOfContent), lenthOfCheck));
     deviceOrder.setVerifyCode(mClientBuff.mid((lengthOfOrder + lengthOfContent + lenthOfCheck), lengthOfVerifyType));
-    deviceOrder.setVerifyCode(mClientBuff.mid((lengthOfOrder + lengthOfContent + lenthOfCheck + lengthOfVerifyType), jsonLength));
+    deviceOrder.setContent(mClientBuff.mid((lengthOfOrder + lengthOfContent + lenthOfCheck + lengthOfVerifyType), jsonLength));
     deviceOrder.setEnd(mClientBuff.mid(endIndex));
 
     mClientBuff = mClientBuff.right(mClientBuff.length() - (lengthOfOrder + lengthOfContent + lenthOfCheck + lengthOfVerifyType + jsonLength + 1));
@@ -138,6 +162,12 @@ void DevClient::hasWritten(qint64 bytes)
 }
 
 void DevClient::writeAndFlush(QByteArray &data)
+{
+    mpClient->write(data);
+    mpClient->flush();
+}
+
+void DevClient::writeAndFlush(QByteArray &&data)
 {
     mpClient->write(data);
     mpClient->flush();
