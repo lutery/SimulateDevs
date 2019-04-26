@@ -4,24 +4,19 @@
 #include "devicemanager.h"
 #include <QEventLoop>
 #include <QDebug>
-#include "devdaemon.h"
+#include <QThreadPool>
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+
+    qDebug() << "max thread count " << QThreadPool::globalInstance()->maxThreadCount() << "stack Size is " << QThreadPool::globalInstance()->stackSize();
 
     DevInit devInit;
 //    devInit.initParam();
 
     std::cout << devInit;
 
-//    DevDaemon devDaemon(&devInit);
-//    devDaemon.start();
-
-//    for (;;)
-//    {
-
-//    }
     QEventLoop loop;
     DeviceManager::getInstance(devInit);
     QObject::connect(DeviceManager::getInstance(), SIGNAL(finish()), &loop, SLOT(quit()));

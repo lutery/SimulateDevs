@@ -13,11 +13,13 @@ class DevClient : public QObject
     Q_OBJECT
 public:
     explicit DevClient(QObject *parent = nullptr);
+    virtual ~DevClient() override;
     void initDevice(QString serverIP, quint16 serverPort);
 
     QString devID() const;
 
 signals:
+    void finish();
 
 public slots:
     void readData();
@@ -29,6 +31,8 @@ public slots:
     void writeAndFlush(QByteArray&& data);
 
 private:
+    QString mServerIP;
+    quint16 mServerPort;
     AbsHandler* mpHandler;
     QTcpSocket* mpClient;
     QByteArray mClientBuff;

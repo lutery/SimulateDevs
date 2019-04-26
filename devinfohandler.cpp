@@ -44,4 +44,6 @@ bool DevInfoHandler::handle(DevClient &devClient, DeviceOrder &deviceOrder)
     byteBuf.append(0x24);
 
     devClient.writeAndFlush(byteBuf);
+
+    return true;
 }

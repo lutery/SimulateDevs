@@ -26,7 +26,6 @@ DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
     connect(mpClient, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(mpClient, SIGNAL(bytesWritten(qint64)), this, SLOT(hasWritten(qint64)));
 
-
     DevInfoHandler* infoHandler = new DevInfoHandler();
     DevStatusHandler* devStatusHandler = new DevStatusHandler();
     ResultInfoHandler* resultInfoHandler = new ResultInfoHandler();
@@ -44,15 +43,24 @@ DevClient::DevClient(QObject *parent) : QObject(parent), mpClient(nullptr)
     prnInfoHandler->setNext(unknownHandler);
 }
 
+DevClient::~DevClient()
+{
+
+}
+
 void DevClient::initDevice(QString serverIP, quint16 serverPort)
 {
+    mServerIP = serverIP;
+    mServerPort = serverPort;
+
     mpClient->connectToHost(serverIP, serverPort);
     mDevID = ToolUtil::str2Md5(QUuid::createUuid().toString());
+    qDebug() << "DevId " << mDevID << " born";
 }
 
 void DevClient::readData()
 {
-    qDebug() << "receive dara";
+    qDebug() << "DevId " << mDevID << "receive dara";
 
     if (mpClient->bytesAvailable() <= 0)
     {

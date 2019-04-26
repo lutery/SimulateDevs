@@ -24,10 +24,10 @@ Project {
 
         consoleApplication: true
         files: [
+            "asyncdevclient.cpp",
+            "asyncdevclient.h",
             "devclient.cpp",
             "devclient.h",
-            "devdaemon.cpp",
-            "devdaemon.h",
             "devicemanager.cpp",
             "devicemanager.h",
             "deviceorder.cpp",

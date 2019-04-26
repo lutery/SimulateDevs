@@ -24,7 +24,7 @@ public slots:
     void initParam();
 
 private:
-    int mDevCount = 1;
+    int mDevCount = 3;
     int mServerPort = 9100;
 //    QString mServerIP = "startprinter.com.cn";
     QString mServerIP = "localhost";
