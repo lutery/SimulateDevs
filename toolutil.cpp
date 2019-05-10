@@ -6,10 +6,44 @@
 #include <QJsonObject>
 #include <chrono>
 #include <random>
+#include <sstream>
 
 ToolUtil::ToolUtil()
 {
 
+}
+
+int ToolUtil::toInt(std::string str)
+{
+    std::stringstream sin(str);
+
+    if (!ToolUtil::isNum(str))
+    {
+        return -1;
+    }
+
+    double tmpD;
+    sin >> tmpD;
+
+    return static_cast<int>(tmpD);
+}
+
+bool ToolUtil::isNum(std::string str)
+{
+    std::stringstream sin(str);
+    double d;
+    char c;
+
+    if (!(sin >> d))
+    {
+        return false;
+    }
+    else if (sin >> c)
+    {
+        return false;
+    }
+
+    return true;
 }
 
 int ToolUtil::genRangeInt(int min, int max)

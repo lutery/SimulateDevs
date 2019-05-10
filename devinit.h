@@ -24,10 +24,10 @@ public slots:
     void initParam();
 
 private:
-    int mDevCount = 3;
+    int mDevCount = 100;
     int mServerPort = 9100;
-//    QString mServerIP = "startprinter.com.cn";
-    QString mServerIP = "localhost";
+    QString mServerIP = "startprinter.com.cn";
+//    QString mServerIP = "localhost";
 };
 
 #endif // DEVINIT_H

@@ -1,6 +1,7 @@
 #include "devinit.h"
 #include <iostream>
 #include <string>
+#include "toolutil.h"
 
 using namespace std;
 
@@ -20,12 +21,15 @@ ostream & operator<<(ostream &out, DevInit& devInit)
 
 void DevInit::initParam()
 {
-    int devNumbers = 1;
-    cout << "please enter dev number: ";
-    cin >> devNumbers;
-//    cin.ignore(INT_MAX);
+    cout << "please enter how number dev: ";
 
-    if (devNumbers <= 0)
+    std::string inputStr;
+    char inputChar[1024];
+    memset(inputChar, 0, 1024);
+    getline(cin,inputStr);
+
+    int devNumbers = ToolUtil::toInt(inputStr);
+    if (devNumbers < 0 || devNumbers > 100)
     {
         cout << "enter an incorrect number, default devNumbers is 1";
         devNumbers = 1;
@@ -33,20 +37,23 @@ void DevInit::initParam()
 
     mDevCount = devNumbers;
 
-    cout << "please enter server ip(default serverprinter.com.cn):";
+    cout << endl << "please enter server ip(default serverprinter.com.cn):";
+
     std::string serverIP;
-    cin >> serverIP;
-//    cin.ignore(INT_MAX);
+    getline(cin, serverIP);
 
     if (serverIP.length() > 5)
     {
         mServerIP = QString::fromStdString(serverIP);
     }
 
-    cout << "please enter server port(default port is 9100):";
-    int serverPort;
-    cin >> serverPort;
-//    cin.ignore(INT_MAX);
+    cout << endl << "please enter server port(default port is 9100):";
+
+    inputStr = "";
+
+    getline(cin, inputStr);
+
+    int serverPort = ToolUtil::toInt(inputStr);
 
     if (serverPort > 0)
     {

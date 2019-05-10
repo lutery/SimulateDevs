@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QByteArray>
+#include <string>
 #include "iverify.h"
 
 class ToolUtil
@@ -11,6 +12,8 @@ private:
     ToolUtil();
 
 public:
+    static int toInt(std::string str);
+    static bool isNum(std::string str);
     static int genRangeInt(int min, int max);
     static QByteArray getResultMsg(QString result, IVerify* verifyTool);
     static QString str2Md5(QString&& str);

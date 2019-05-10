@@ -39,8 +39,6 @@ Project {
             "main.cpp",
             "printerorder.cpp",
             "printerorder.h",
-            "toolutil.cpp",
-            "toolutil.h",
         ]
 
         Group {     // Properties for the produced executable
@@ -84,5 +82,12 @@ Project {
             ]
         }
 
+        Group{
+            name: "util"
+            files: [
+                "toolutil.cpp",
+                "toolutil.h",
+            ]
+        }
     }
 }

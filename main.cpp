@@ -11,9 +11,10 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
 
     qDebug() << "max thread count " << QThreadPool::globalInstance()->maxThreadCount() << "stack Size is " << QThreadPool::globalInstance()->stackSize();
+    QThreadPool::globalInstance()->setMaxThreadCount(100);
 
     DevInit devInit;
-//    devInit.initParam();
+    devInit.initParam();
 
     std::cout << devInit;
 
@@ -21,8 +22,6 @@ int main(int argc, char *argv[])
     DeviceManager::getInstance(devInit);
     QObject::connect(DeviceManager::getInstance(), SIGNAL(finish()), &loop, SLOT(quit()));
     loop.exec();
-
-//    qDebug() << "core application exit";
 
     return a.exec();
 //    return loop.exec();
